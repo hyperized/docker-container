@@ -8,11 +8,8 @@
   with_items:
     - "{{ docker_containers }}"
   register: systemd_config
-
-- name: reload daemon when config has changed
-  command: systemctl daemon-reload
-  when:
-    - systemd_config.changed
+  notify:
+    - reload systemctl
 
 - name: ensure service is starting on bootup
   service:
