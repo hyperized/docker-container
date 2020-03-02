@@ -6,7 +6,7 @@
   loop_control:
     loop_var: container
   with_items:
-    - "{{ docker_containers }}"
+    - "{{ docker_container }}"
   register: systemd_config
   notify:
     - reload systemctl
@@ -19,4 +19,4 @@
   loop_control:
     loop_var: container
   with_items:
-    - "{{ docker_containers }}"
+    - "{{ docker_container }}"

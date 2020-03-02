@@ -32,7 +32,7 @@ Example Playbook
       become: yes
       roles:
         - role: hyperized.docker-container
-          docker_containers:
+          docker_container:
             - name: redis
 
 License
