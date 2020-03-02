@@ -1,0 +1,17 @@
+[Unit]
+Description={{ container.name }}
+Requires=docker.service
+
+[Service]
+ExecStartPre=/bin/sleep 1
+{% if docker_container_login_username != "" %}
+ExecStartPre=-/usr/bin/docker login --username "{{ docker_container_login_username }}" --password "{{ docker_container_login_token }}" {{ docker_container_login_registry }}
+{% endif %}
+ExecStartPre=-/usr/bin/docker rm -f {{ container.name }}
+ExecStartPre=/usr/bin/docker pull {{ container.image | default(container.name) }}
+ExecStart=/usr/bin/docker run --restart=always --name={{ container.name }} {{ container.options | default("") }} {{ container.image | default(container.name) }} {{  container.arguments | default("") }}
+ExecStop=/usr/bin/docker stop {{ container.name }}
+ExecReload=/usr/bin/docker restart {{ container.name }}
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  author: Gerben Geijteman
+  description: Ubuntu Docker container manager for systemd
+  company: Hyperized.net
+  license: MIT
+  min_ansible_version: 2.5
+  platforms:
+    - name: Ubuntu
+      versions:
+        - bionic
+  galaxy_tags:
+    - docker
+    - container
+dependencies:
+  - role: hyperized.docker
+  - role: hyperized.pip
+    pip_name: docker

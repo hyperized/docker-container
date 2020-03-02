@@ -1,0 +1,8 @@
+---
+docker_container_state: present
+docker_container_running_state: started
+docker_container_enabled: yes
+docker_container_login_registry:
+docker_container_login_username:
+docker_container_login_token:
+docker_container:

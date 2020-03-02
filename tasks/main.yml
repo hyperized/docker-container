@@ -1,0 +1,25 @@
+---
+- name: ensure systemd config
+  template:
+    src: template.service.j2
+    dest: "/etc/systemd/system/docker.{{ container.name }}.service"
+  loop_control:
+    loop_var: container
+  with_items:
+    - "{{ docker_containers }}"
+  register: systemd_config
+
+- name: reload daemon when config has changed
+  command: systemctl daemon-reload
+  when:
+    - systemd_config.changed
+
+- name: ensure service is starting on bootup
+  service:
+    name: "docker.{{ container.name }}"
+    state: "{{ container.state | default(docker_container_running_state) }}"
+    enabled: "{{ container.enabled | default(docker_container_enabled) }}"
+  loop_control:
+    loop_var: container
+  with_items:
+    - "{{ docker_containers }}"
